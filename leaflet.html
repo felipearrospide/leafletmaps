@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin="">
+</script>
+
+<script src="./rg_4326.geojson" type="text/javascript"></script>
+
+
+<!-- <script src="/Users/felipearrospide/OneDrive - ciren.cl/Proyectos_RHidricos_2021_2022/2022_ANID_sequia/Antecedentes/JV_RioGrande/RG_3857_qgis.geojson" type="text/javascript"></script> -->
+
+<div id='map' style="display:inline-block; width: 70%; height: 750px;"></div>
+
+<script>
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.Foja) {
+        layer.bindPopup(feature.properties.Foja);
+    }
+}
+
+var map = L.map('map').setView([-31.505, -71.09], 13);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+L.geoJson(rg_4326,{
+    onEachFeature: onEachFeature
+}).addTo(map);
+</script>
+
+</html>
